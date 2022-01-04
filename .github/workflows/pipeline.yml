@@ -31,8 +31,9 @@ jobs:
     - name: Run Tests
       run: |
         python src/manage.py test
-        
+
     - name: Analysing the code with pylint
       run: |
+        cd src
         pylint `ls -R|grep .py$|xargs`
 
