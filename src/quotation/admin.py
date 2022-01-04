@@ -4,6 +4,6 @@ from .models import Quotation
 # Register your models here.
 
 class ListQuotation(admin.ModelAdmin):
-    list_display = ('date', 'url_base')
+    list_display = ('date', 'response_date')
 
-admin.site.register(Quotation)
+admin.site.register(Quotation, ListQuotation)
