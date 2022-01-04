@@ -1,6 +1,6 @@
 import requests
 from django.db import models
-# from .utils.functions import working_days
+from .utils.functions import working_days
 
 # Create your models here.
 
@@ -35,23 +35,25 @@ class Quotation(models.Model):
         rates = self.response.get('rates', None)
         return rates.get(f'{currency}', None)
 
-    def get_by_date(self, date: str, currency: str = None) -> dict or float:
+    def get_by_date(self, date: str, currency: str = None) -> dict:
         url_with_date = self.url_base + f"&date={date}"
         response_by_date = requests.get(url_with_date).json()
-        if currency == None:
+        if currency is None:
             return response_by_date
         else:
             currency = currency.upper()
             rates = response_by_date.get('rates', None)
-            return rates.get(f'{currency}', None)
+            curr = rates.get(f'{currency}', None)
+            resp = {'date' : date, f'{currency}': curr}
+            return resp
 
-    # def get_past_days(self, days: int, currency: str) -> dict:
-    #     dates = working_days(days)
-    #     currency_list = list()
+    def get_past_days(self, days: int, currency: str) -> dict:
+        dates = working_days(days)
+        currency_list = []
 
-    #     for date in dates:
-    #         curr = self.get_by_date(date, currency)
-    #         currency_list.append(curr)
+        for date in dates:
+            curr = self.get_by_date(date, currency)
+            currency_list.append(curr)
 
-    #     response = {'quotations': currency_list}
-    #     return response
+        response = {'quotations': currency_list}
+        return response
