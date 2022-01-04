@@ -1,9 +1,14 @@
+"""Definition of routes paths
+"""
+
 from django.contrib import admin
 from django.urls import path
-from quotation.views import quotation
+from quotation.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', quotation),
-    path('quotation/', quotation),
+    path('', last_quotation),
+    path('quotation/', last_quotation),
+    path('quotation/date', quotation_by_date),
+    path('quotation/days', last_days_quotations),
 ]
