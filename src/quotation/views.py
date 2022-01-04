@@ -9,6 +9,7 @@ from .models import Quotation
 def last_quotation(request):
     """Return JSON response general.
     """
+    print(request.GET)
     quotations = Quotation()
     json_response = quotations.show_all()
 

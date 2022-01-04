@@ -3,7 +3,7 @@
 
 from django.contrib import admin
 from django.urls import path
-from quotation.views import *
+from quotation.views import last_quotation, quotation_by_date, last_days_quotations
 
 urlpatterns = [
     path('admin/', admin.site.urls),
