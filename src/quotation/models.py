@@ -1,39 +1,39 @@
+"""Model for Class Quotation
+"""
+
 import requests
 from django.db import models
 from .utils.functions import working_days
 
-# Create your models here.
-
-
 class Quotation(models.Model):
     """Quotation class to handle requests.
-
-    Keyword arguments:
-    date -- date from currency quotation
-    currency -- type of cash
-    days -- days past
     """
     date = models.CharField(primary_key=True, max_length=15)
     url_base = 'https://api.vatcomply.com/rates?base=USD'
     response = requests.get(url_base).json()
+    response_date = models.JSONField()
 
     def show_all(self) -> dict:
-        """Return last quotation
+        """Return last quotation by request
         """
         return self.response
 
     def get_date(self, response: dict = None) -> str:
         """Return date from a response
+
+        Keyword arguments:
+        response -- json with data
         """
         if response is None:
             return self.response.get('date', None)
         else:
             return response.get('date', None)
 
-    def get_quotation(self, currency: str) -> float:
+    def get_quotation_currency(self, currency: str) -> dict:
         currency = currency.upper()
         rates = self.response.get('rates', None)
-        return rates.get(f'{currency}', None)
+        value = rates.get(f'{currency}', None)
+        return {"currency" : f'{value}'}
 
     def get_by_date(self, date: str, currency: str = None) -> dict:
         url_with_date = self.url_base + f"&date={date}"
