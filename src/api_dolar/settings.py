@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'api_dolar.custom_middleware.LastQuotationMiddleware',
 ]
 
 ROOT_URLCONF = 'api_dolar.urls'
