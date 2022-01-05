@@ -55,7 +55,7 @@ jobs:
 
   push_to_registry:
     needs: [build, analysis]
-    if: github.event_name == 'pull_request' && github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/develop'
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
