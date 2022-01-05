@@ -28,9 +28,9 @@ def quotation_by_date(request):
     quotations = Quotation()
     if date is None:
         return JsonResponse(quotations.show_all())
-    else:
-        response_by_date = quotations.get_by_date(date=date, currency=currency)
-        return JsonResponse(response_by_date)
+
+    response_by_date = quotations.get_by_date(date=date, currency=currency)
+    return JsonResponse(response_by_date)
 
 def last_days_quotations(request):
     """Return last days quotations of a currency.
