@@ -43,7 +43,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.9'
-    - name: Install Pylint
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
@@ -54,7 +54,7 @@ jobs:
       continue-on-error: true
 
   push_to_registry:
-    needs: build
+    needs: [build, analysis]
     if: github.event_name == 'pull_request' && github.ref == 'refs/heads/develop'
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
