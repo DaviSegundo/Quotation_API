@@ -1,6 +1,14 @@
+"""Extra functions to handle logic of quotations
+"""
+
 from datetime import datetime, timedelta
 
 def working_days(days: int):
+    """Return a list of N workingdays
+
+    Keyword arguments:
+    days -- days past
+    """
     dates = []
     today = datetime.utcnow()
 
