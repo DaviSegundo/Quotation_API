@@ -33,6 +33,9 @@ jobs:
         python src/manage.py test
 
   analysis:
+
+    runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v2
     - name: Analysing the code with pylint
