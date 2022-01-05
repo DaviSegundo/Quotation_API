@@ -33,6 +33,7 @@ jobs:
         python src/manage.py test
 
   analysis:
+    steps:
     - uses: actions/checkout@v2
     - name: Analysing the code with pylint
       run: |
