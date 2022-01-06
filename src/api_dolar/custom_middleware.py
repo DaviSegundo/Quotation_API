@@ -10,11 +10,7 @@ class LastQuotationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        url = request.get_full_path()
-        url_sep = url.split('/')
-        if url_sep[1] != "db":
-            print(url_sep)
-            last_quotation()
+        last_quotation()
 
         response = self.get_response(request)
         return response
