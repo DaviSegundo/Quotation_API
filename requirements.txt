@@ -3,3 +3,4 @@ requests
 pylint
 djangorestframework
 markdown
+django-cors-headers

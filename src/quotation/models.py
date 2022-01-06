@@ -55,7 +55,7 @@ class Quotation(models.Model):
         currency = currency.upper()
         rates = response_by_date.get('rates', None)
         curr = rates.get(f'{currency}', None)
-        resp = {'date' : date, f'{currency}': curr}
+        resp = {'date' : date, 'currency': curr}
         return resp
 
     def get_past_days(self, days: int, currency: str) -> dict:
@@ -72,5 +72,7 @@ class Quotation(models.Model):
             curr = self.get_by_date(date, currency)
             currency_list.append(curr)
 
-        response = {'quotations': currency_list}
+        currency_list.reverse()
+
+        response = {'quotations': currency_list, 'currency': f'{currency.upper()}'}
         return response
