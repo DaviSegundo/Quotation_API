@@ -2,14 +2,16 @@
 Module to handler requests for quotations.
 """
 
+from rest_framework import viewsets
 from django.http import JsonResponse
+from .serializer import QuotationSerializer
 from .models import Quotation
 
+# Requests made by direct requesto to third-party API
 
 def last_quotation(request):
     """Return JSON response general.
     """
-    print(request.GET)
     quotations = Quotation()
     json_response = quotations.show_all()
 
@@ -46,3 +48,32 @@ def last_days_quotations(request):
     quotations_list = quotations.get_past_days(days=days, currency=currency)
 
     return JsonResponse(quotations_list)
+
+# API requests using restframework
+
+class QuotationsViewSet(viewsets.ModelViewSet):
+    """Show quotations saved in database
+    """
+    queryset = Quotation.objects.all()
+    serializer_class = QuotationSerializer
+
+# API requests using database
+
+def db_last_quotation(request):
+    """Request to get last quotation saved in database
+    """
+    db_quotation = Quotation.objects.last()
+    response = {"date" : db_quotation.date,
+                "response_date" : db_quotation.response_date}
+    return JsonResponse(response)
+
+def db_quotation_by_date(request, date):
+    """Request to get quotation by date saved in database
+
+    Keyword arguments:
+    date -- date of quotation
+    """
+    quotation_date = Quotation.objects.filter(date=date).first()
+    response = {"date" : quotation_date.date,
+                "response_date" : quotation_date.response_date}
+    return JsonResponse(response)
