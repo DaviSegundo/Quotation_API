@@ -10,5 +10,6 @@ class ListQuotation(admin.ModelAdmin):
     """Configure display show
     """
     list_display = ('date', 'response_date')
+    search_fields = ('date',)
 
 admin.site.register(Quotation, ListQuotation)
