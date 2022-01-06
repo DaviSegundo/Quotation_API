@@ -4,6 +4,8 @@ Module to handler requests for quotations.
 
 from rest_framework import viewsets
 from django.http import JsonResponse
+
+from quotation.utils.functions import working_days
 from .serializer import QuotationSerializer
 from .models import Quotation
 
@@ -77,3 +79,23 @@ def db_quotation_by_date(request, date):
     response = {"date" : quotation_date.date,
                 "response_date" : quotation_date.response_date}
     return JsonResponse(response)
+
+def db_last_days_quotations(request, days: int, currency: str):
+    """Request to get last days quotations of database
+
+    Keyword arguments:
+    days -- last days
+    currency -- type of cash
+    """
+    dates = working_days(days=days)
+    currency = currency.upper()
+    quotations = []
+    for date in dates:
+        info = Quotation.objects.filter(date=date).first()
+        value = info.response_date.get('rates').get(currency)
+        response = {"date" : info.date, "currency" : value}
+        quotations.append(response)
+    quotations.reverse()
+    final_response = {"quotations" : quotations, "currency" : currency.upper()}
+
+    return JsonResponse(final_response)
