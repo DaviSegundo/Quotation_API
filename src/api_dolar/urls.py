@@ -19,5 +19,5 @@ urlpatterns = [
     path('db/quotation/', views.db_last_quotation),
     path('db/quotation/<str:date>', views.db_quotation_by_date),
     path('db/quotation/days/<int:days>/<str:currency>', views.db_last_days_quotations),
-    path('pop_bank', views.pop_bank),
+    path('pop_bank/<int:items>', views.pop_bank),
 ]
