@@ -6,6 +6,7 @@ from rest_framework import viewsets
 from django.http import JsonResponse
 
 from quotation.utils.functions import working_days
+from quotation.utils import last_quotation as lq
 from .serializer import QuotationSerializer
 from .models import Quotation
 
@@ -99,3 +100,7 @@ def db_last_days_quotations(request, days: int, currency: str):
     final_response = {"quotations" : quotations, "currency" : currency.upper()}
 
     return JsonResponse(final_response)
+
+def pop_bank(request, items: int):
+    lq.last_quotation(days=items)
+    return JsonResponse({"ok" : 200})
