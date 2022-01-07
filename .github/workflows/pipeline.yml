@@ -96,10 +96,10 @@ jobs:
             USER_NAME : ${{ secrets.USER_NAME  }}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@ec2-15-229-10-69.sa-east-1.compute.amazonaws.com
       
       - name: Deploy in EC2
         run: |
           sudo docker-compose down
           sudo docker-compose pull
-          sudo docker-compose  up -d  
+          sudo docker-compose up -d  
