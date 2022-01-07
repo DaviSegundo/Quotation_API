@@ -100,6 +100,6 @@ jobs:
       
       - name: Deploy in EC2
         run: |
-          sudo docker-compose down
-          sudo docker-compose pull
+          sudo docker-compose -f docker-compose.yml down
+          sudo docker-compose -f docker-compose.yml pull
           sudo docker-compose -f docker-compose.yml up -d  
