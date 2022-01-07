@@ -54,7 +54,7 @@ jobs:
       continue-on-error: true
 
   push_to_registry:
-    needs: [build, analysis]
+    needs: analysis
     if: github.ref == 'refs/heads/develop'
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
@@ -81,3 +81,25 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: push_to_registry
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    name: Deploy API in AWS EC2
+    steps:
+      - uses: actions/checkout@v2 
+      - name: Login in EC2
+        env:
+            PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
+            HOSTNAME : ${{ secrets.HOSTNAME  }}
+            USER_NAME : ${{ secrets.USER_NAME  }}
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
+      
+      - name: Deploy in EC2
+        run: |
+          sudo docker-compose down
+          sudo docker-compose pull
+          sudo docker-compose  up -d  
