@@ -88,19 +88,14 @@ jobs:
     if: github.ref == 'refs/heads/develop'
     name: Deploy API in AWS EC2
     steps: 
-      - name: Login in EC2
+      - name: Login & Deploy in EC2
         env:
             PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
             HOSTNAME : ${{ secrets.HOSTNAME  }}
             USER_NAME : ${{ secrets.USER_NAME  }}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@ec2-15-229-10-69.sa-east-1.compute.amazonaws.com
-      
-      - name: Deploy in EC2
-        run: |
-          cd /home/ubuntu
-          ls
-          sudo docker-compose -f docker-compose.yml down
-          sudo docker-compose -f docker-compose.yml pull
-          sudo docker-compose -f docker-compose.yml up -d  
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@ec2-15-229-10-69.sa-east-1.compute.amazonaws.com '
+            sudo docker-compose -f docker-compose.yml down
+            sudo docker-compose -f docker-compose.yml pull
+            sudo docker-compose -f docker-compose.yml up -d
