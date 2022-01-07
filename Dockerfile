@@ -1,5 +1,6 @@
 FROM python:latest
 LABEL Davi Segundo
+ENV PYTHONUNBUFFERED 1
 EXPOSE 8000
 COPY . /var/www
 WORKDIR /var/www
