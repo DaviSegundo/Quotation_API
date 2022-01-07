@@ -4,3 +4,4 @@ pylint
 djangorestframework
 markdown
 django-cors-headers
+python-dotenv
