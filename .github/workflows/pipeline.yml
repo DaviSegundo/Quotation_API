@@ -87,8 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
     name: Deploy API in AWS EC2
-    steps:
-      - uses: actions/checkout@v2 
+    steps: 
       - name: Login in EC2
         env:
             PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
