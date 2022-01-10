@@ -29,7 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['0.0.0.0',
                  '127.0.0.1',
                  'localhost',
-                 'ec2-15-229-10-69.sa-east-1.compute.amazonaws.com']
+                 'ec2-15-229-10-69.sa-east-1.compute.amazonaws.com',
+                 'quotationfront.netlify.app']
 
 
 # Application definition
