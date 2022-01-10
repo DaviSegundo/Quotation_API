@@ -57,7 +57,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'https://davisegundo.github.io/Quotation_Front/'
+    'https://davisegundo.github.io'
 ]
 
 ROOT_URLCONF = 'api_dolar.urls'
