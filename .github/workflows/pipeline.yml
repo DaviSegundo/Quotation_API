@@ -28,9 +28,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Tests
-      run: |
-        python src/manage.py test
+    # - name: Run Tests
+    #   run: |
+    #     python src/manage.py test
 
   analysis:
     needs: build
