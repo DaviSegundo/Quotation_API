@@ -58,7 +58,8 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://davisegundo.github.io',
-    'https://quotationfront.netlify.app'
+    'https://quotationfront.netlify.app',
+    'http://3.81.135.99'
 ]
 
 ROOT_URLCONF = 'api_dolar.urls'
