@@ -95,7 +95,7 @@ jobs:
             USER_NAME : ${{ secrets.USER_NAME  }}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@ec2-15-229-10-69.sa-east-1.compute.amazonaws.com '
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
             sudo docker-compose -f docker-compose.yml down
             sudo docker-compose -f docker-compose.yml pull
             sudo docker-compose -f docker-compose.yml up -d
