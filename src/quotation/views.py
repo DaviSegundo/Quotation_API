@@ -2,6 +2,8 @@
 Module to handler requests for quotations.
 """
 
+import json
+import ast
 from rest_framework import viewsets
 from django.http import JsonResponse
 
@@ -104,3 +106,8 @@ def db_last_days_quotations(request, days: int, currency: str):
 def pop_bank(request, items: int):
     lq.last_quotation(days=items)
     return JsonResponse({"ok" : 200})
+
+def test_serialize(request):
+    info = Quotation.objects.all().values('date', 'response_date')
+    data = list(info)
+    return JsonResponse({"data": data})
