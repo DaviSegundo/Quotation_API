@@ -20,5 +20,6 @@ urlpatterns = [
     path('db/quotation/<str:date>/', views.db_quotation_by_date),
     path('db/quotation/days/<int:days>/<str:currency>/', views.db_last_days_quotations),
     path('pop_bank/<int:items>/', views.pop_bank),
-    path('serial/', views.test_serialize)
+    path('serial/', views.test_serialize),
+    path('search/', views.new_test_json_search),
 ]
