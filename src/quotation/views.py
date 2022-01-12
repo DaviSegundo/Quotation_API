@@ -2,10 +2,9 @@
 Module to handler requests for quotations.
 """
 
-import json
-import ast
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from django.http import JsonResponse
+from django_filters.rest_framework import DjangoFilterBackend
 
 from quotation.utils.functions import working_days
 from quotation.utils import last_quotation as lq
@@ -61,6 +60,9 @@ class QuotationsViewSet(viewsets.ModelViewSet):
     """
     queryset = Quotation.objects.all()
     serializer_class = QuotationSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['date']
+    search_fields = ['date']
 
 # API requests using database
 
@@ -107,7 +109,14 @@ def pop_bank(request, items: int):
     lq.last_quotation(days=items)
     return JsonResponse({"ok" : 200})
 
+# Testing methods to do things
+
 def test_serialize(request):
     info = Quotation.objects.all().values('date', 'response_date')
     data = list(info)
     return JsonResponse({"data": data})
+
+def new_test_json_search(request):
+    info = Quotation.objects.filter(response_date__rates__BRL__gte=5.68).values('date', 'response_date')
+    data = list(info)
+    return JsonResponse({"data" : data})
