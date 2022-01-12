@@ -90,16 +90,8 @@ WSGI_APPLICATION = 'api_dolar.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'Quotation',
-        'ENFORCE_SCHEMA': False,
-        'CLIENT': {
-        'name': 'quotation',
-        'host': 'mongodb+srv://davisegundo:davisp88@quotation.0chia.mongodb.net/quotation?retryWrites=true&w=majority',
-        'username': 'davisegundo',
-        'password': 'davisp88',
-        "authMechanism": "SCRAM-SHA-1"
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
