@@ -1,5 +1,5 @@
 django==4.0
-django-filter
+django-filter==21.1
 django-cors-headers==3.10.1
 djangorestframework==3.13.1
 django-cors-middleware==1.5.0

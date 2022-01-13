@@ -11,7 +11,7 @@ router = routers.DefaultRouter()
 router.register('quotations', QuotationsViewSet, basename='Quotations')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('control/', admin.site.urls),
     path('', include(router.urls)),
     path('api/quotation/', views.last_quotation),
     path('api/quotation/date/', views.quotation_by_date),
@@ -21,5 +21,6 @@ urlpatterns = [
     path('db/quotation/days/<int:days>/<str:currency>/', views.db_last_days_quotations),
     path('pop_bank/<int:items>/', views.pop_bank),
     path('serial/', views.test_serialize),
+    path('serial_class/', views.test_serialize_with_class),
     path('search/', views.new_test_json_search),
 ]
