@@ -5,6 +5,7 @@ Module to handler requests for quotations.
 from rest_framework import viewsets, filters
 from django.http import JsonResponse
 from django_filters.rest_framework import DjangoFilterBackend
+from django.views.decorators.cache import cache_page
 
 from quotation.utils.functions import working_days
 from quotation.utils import last_quotation as lq
@@ -40,7 +41,7 @@ def quotation_by_date(request):
 
     return JsonResponse(response_by_date)
 
-
+@cache_page(60)
 def last_days_quotations(request):
     """Return last days quotations of a currency.
 
@@ -68,6 +69,7 @@ class QuotationsViewSet(viewsets.ModelViewSet):
                        filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['date']
     search_fields = ['date']
+    http_method_names = ['get', 'post', 'put', 'patch']
 
 # API requests using database
 
@@ -95,7 +97,7 @@ def db_quotation_by_date(request, date):
                     "response_date": quotation_date.response_date}
     return JsonResponse(response)
 
-
+@cache_page(60)
 def db_last_days_quotations(request, days: int, currency: str):
     """Request to get last days quotations of database
 
@@ -141,6 +143,14 @@ def test_serialize(request):
 
     return JsonResponse({"data": data})
 
+def test_serialize_with_class(request):
+    """Testing how to use serialize class to serialize
+    """
+    if request.method == 'GET':
+        info = Quotation.objects.first()
+        data = QuotationSerializer(instance=info).data
+
+    return JsonResponse({"data" : data})
 
 def new_test_json_search(request):
     """Route to demostrate how JSON fields search works
