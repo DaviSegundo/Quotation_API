@@ -4,6 +4,7 @@
 import requests
 from django.test import TestCase
 from quotation.models import Quotation
+from jsonschema import validate
 
 class QuotationModelTestCase(TestCase):
     """Class to test data of quotation.
@@ -108,3 +109,29 @@ class QuotationModelTestCase(TestCase):
         date = self.quotation_valid.get_date(self.quotation_valid.response_date)
         self.assertEqual(date, '2022-01-12')
         self.assertEqual(type(date), str)
+
+    def test_quotation_get_quotation_currency(self):
+        """Testing if method return currency correct
+        """
+        currency = self.quotation_valid.get_quotation_currency("brl")
+        currencys = []
+        currencys_check = []
+        for k in dict(self.quotation_valid.response_date).get("rates"):
+            currencys.append(k)
+        for j in requests.get('https://api.vatcomply.com/rates?base=USD').json().get("rates"):
+            currencys_check.append(j)
+        self.assertEqual(type(currency), dict)
+        self.assertEqual(currencys, currencys_check)
+
+    def test_schema_validation(self):
+        """Testing struct of the schema
+        """
+        schema = {
+            "type" : "object",
+            "properties" :{
+            "date" : {"type" : "string"},
+            "response_date" : {"type" : "object"}
+            }
+        }
+
+        validate(self.quotation_valid.response_date, schema=schema)
