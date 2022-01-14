@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'quotation',
     'corsheaders',
     'django_filters',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
