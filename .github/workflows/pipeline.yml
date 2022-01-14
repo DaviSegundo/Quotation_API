@@ -74,7 +74,7 @@ jobs:
 
   push_to_registry:
     needs: [analysis, tests]
-    if: github.ref == 'refs/heads/develop'
+    if: ${{github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'}}
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
@@ -104,7 +104,7 @@ jobs:
   deploy:
     needs: push_to_registry
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/main'
     name: Deploy API in AWS EC2
     steps: 
       - name: Login & Deploy in EC2
